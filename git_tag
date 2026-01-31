@@ -1,0 +1,16 @@
+GIT TAG CREATION CMDS
+---------------------
+git tag tagName                          -- creating a tag for the branch you checkout
+git tag -a tagName -m "message"          -- create a annotated tag with message
+git tag                                  -- list out the tags created against the branch
+git show tagName                         -- provide info about the tag
+git push origin tagName                  -- push the tag to the remote git
+git push --tags                          -- push all the tags to the remote git
+git tag -d tagName                       -- delete the tag
+git tag --delete tagName                 -- delete the tag
+git push origin -d tagName               -- delete the tag in the remote git
+git push origin --delete tagName         -- delete the tag in the remote git
+git tag -d tagName1 tagName2             -- delete multiple tags 
+git push origin -d tagName1 tagName2     -- delete multiple tags in the remote git
+
+**Replace the tagName with your tag name**
