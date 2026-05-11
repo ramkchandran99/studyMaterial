@@ -1,29 +1,29 @@
-# Build stage - using the correct image format
+# Build stage - using Maven with Eclipse Temurin 17
 FROM maven:3.9-eclipse-temurin-17 AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy pom.xml first for dependency caching (optional but faster builds)
+# Copy pom.xml first for dependency caching
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
-# Copy source code and build
+# Copy source and build
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Runtime stage - use a smaller JRE-only image
-FROM eclipse-temurin:17-jre-slim
+# Runtime stage - choose ONE of these options:
+# Option A: Standard JRE (recommended)
+FROM eclipse-temurin:17-jre
 
-# Create a non-root user for security (recommended for production)
+# Option B: Alpine (smaller image)
+# FROM eclipse-temurin:17-jre-alpine
+
+# Create a non-root user for security
 RUN addgroup --system spring && adduser --system spring --ingroup spring
 USER spring:spring
 
-# Copy the built JAR from build stage
+# Copy the built JAR
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose the port your app runs on
 EXPOSE 7777
-
-# Run the application
 ENTRYPOINT ["java", "-jar", "/app.jar"]
