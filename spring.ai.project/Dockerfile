@@ -1,8 +1,24 @@
-FROM maven:3.8.1-jdk-17 AS build
-COPY . .
+# Stage 1: Build the application
+FROM maven:3.9-eclipse-temurin-17 AS builder
+
+# Set working directory to your project folder
+WORKDIR /app
+
+# Copy Maven configuration from the subdirectory
+COPY spring.ai.project/pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Copy source code from the subdirectory
+COPY spring.ai.project/src ./src
+
+# Build your application
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/*.jar app.jar
+# Stage 2: Run the application
+FROM eclipse-temurin:17-jre-jammy
+
+# Copy the built JAR
+COPY --from=builder /app/target/*.jar /app/app.jar
+
 EXPOSE 7777
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
