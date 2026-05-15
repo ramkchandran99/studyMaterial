@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("/api/ai")
+@RequestMapping("/service/ai")
 @RequiredArgsConstructor
 @Tag(name = "ai Controller", description = "ai APIs")
 public class AiController {

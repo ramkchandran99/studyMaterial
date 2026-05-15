@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/pdf")
+@RequestMapping("/service/pdf")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Slf4j
@@ -28,7 +28,7 @@ public class PdfController {
 	private final PdfGenerationService pdfGenerationService;
 	private final AiTemplateGenerator templateGenerator;
 
-	@PostMapping("/generate/v2")
+	@PostMapping("/generate")
 	@Operation(summary = "generate pdf for prompt")
 	public ResponseEntity<byte[]> generatePdf(@RequestBody PdfRequest request) {
 		log.info("generate pdf for prompt");

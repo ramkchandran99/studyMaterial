@@ -10,15 +10,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/service/home")
+@RequestMapping("/service/home")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Slf4j
 public class HomeController {
 	
-	@GetMapping("/check")
+	@GetMapping("api/health/check")
 	@Operation(summary = "check api health", description = "check api health")
 	public void check() {
-		log.info("Api is active.");
+		log.info("Api is running successfully.");
 	}
 }
