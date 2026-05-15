@@ -1,5 +1,6 @@
 package com.ram.spring.ai.project.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ram.spring.ai.project.dao.UsersRepositoryImpl;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersServiceImpl implements UsersService {
 
 	private final UsersRepositoryImpl usersRepositoryImpl;
+	private final PasswordEncoder passwordEncoder;
 
 	public Users saveUserDetails(UsersDto dto) {
 		log.info("save user details - service");
@@ -39,7 +41,7 @@ public class UsersServiceImpl implements UsersService {
 			user.setId(dto.getId());
 			user.setLastName(dto.getLastName());
 			user.setMobileNo(dto.getMobileNo());
-			user.setPassword(dto.getPassword());
+			user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
 			return usersRepositoryImpl.save(user);
 		} catch (CustomRunTimeException e) {
